@@ -5,7 +5,7 @@ let memoryStack: number[] = [];
 
 // variable used to toggle between degree and radian buttons
 let degree: number = 0;
-// console.log()
+
 // for changing the dropdowns
 let dropdownChange: number = 0;
 
@@ -128,7 +128,6 @@ interface TrigonometryCalculator {
   cosecant(): void;
 }
 class TrigonometryCalculatorImplement implements TrigonometryCalculator {
-  public degree: number = 0;
   public input: HTMLInputElement;
 
   constructor(input: HTMLInputElement) {
@@ -145,16 +144,12 @@ class TrigonometryCalculatorImplement implements TrigonometryCalculator {
    * - sin(90 degree) to 1
    */
   public sine(): void {
-    if (this.degree === 0) {
+    if (degree === 0) {
       this.input.value = Math.sin(
         (Math.PI / 180) * parseFloat(this.input.value)
       ).toString();
-      // console.log("in degree");
-      // const angleInRadians = (Math.PI / 180) * parseFloat(this.input.value);
-      // this.input.value = Math.sin(angleInRadians).toString();
-      // this.degree = 0;
     } else {
-      // console.log("in radian");
+      console.log("in radian");
       this.input.value = Math.sin(parseFloat(this.input.value)).toString();
     }
   }
@@ -169,7 +164,7 @@ class TrigonometryCalculatorImplement implements TrigonometryCalculator {
    * - cos(45 degree) to 0.7071067811865476
    */
   public cosine(): void {
-    if (this.degree === 0) {
+    if (degree === 0) {
       this.input.value = Math.cos(
         (Math.PI / 180) * parseFloat(this.input.value)
       ).toString();
@@ -188,7 +183,7 @@ class TrigonometryCalculatorImplement implements TrigonometryCalculator {
    * - tan(60 degree) to 1.7320508075688767
    */
   public tangent(): void {
-    if (this.degree === 0) {
+    if (degree === 0) {
       this.input.value = Math.tan(
         (Math.PI / 180) * parseFloat(this.input.value)
       ).toString();
@@ -207,7 +202,7 @@ class TrigonometryCalculatorImplement implements TrigonometryCalculator {
    * - cot(30 degree) to 1.7320508075688774
    */
   public cotangent(): void {
-    if (this.degree === 0) {
+    if (degree === 0) {
       this.input.value = (
         1 / Math.tan((Math.PI / 180) * parseFloat(this.input.value))
       ).toString();
@@ -228,7 +223,7 @@ class TrigonometryCalculatorImplement implements TrigonometryCalculator {
    * - sec(45 degree) to 1.414213562373095
    */
   public secant(): void {
-    if (this.degree === 0) {
+    if (degree === 0) {
       this.input.value = (
         1 / Math.cos((Math.PI / 180) * parseFloat(this.input.value))
       ).toString();
@@ -249,7 +244,7 @@ class TrigonometryCalculatorImplement implements TrigonometryCalculator {
    * - cosec(60 degree) to 1.1547005383792517
    */
   public cosecant(): void {
-    if (this.degree === 0) {
+    if (degree === 0) {
       this.input.value = (
         1 / Math.sin((Math.PI / 180) * parseFloat(this.input.value))
       ).toString();
@@ -384,9 +379,6 @@ function calculate() {
     return new Function("return " + user)();
   }
   try {
-    // function cal(user: string) {
-    //   return new Function("return " + user)();
-    // }
     const output = cal(`${result}`);
     const inputEl = document.getElementById("input") as HTMLInputElement;
     inputEl.value = output.toString();
@@ -408,8 +400,6 @@ function calculate() {
  * @returns void
  */
 function changeDropdown(display1: string, display2: string): void {
-  let dropdownChange: number = 1;
-
   if (typeof document !== "undefined") {
     const elements2: HTMLElement[] = Array.from(
       document.getElementsByClassName("display2")
@@ -916,7 +906,6 @@ const signChangeFunction = () => {
 // import { MemoryImplement } from "../../utils/utils11";
 
 interface Memory {
-  memoryStack: number[];
   input: HTMLInputElement;
   buttonDisableToAble(): void;
   memoryClear(): void;
@@ -927,8 +916,11 @@ interface Memory {
 }
 
 class MemoryImplement implements Memory {
-  memoryStack: number[] = [];
-  input: HTMLInputElement = document.createElement("input");
+  input: HTMLInputElement;
+
+  constructor(input: string) {
+    this.input = document.getElementById(input) as HTMLInputElement;
+  }
 
   buttonDisableToAble(): void {
     (document.getElementById("mc") as HTMLButtonElement).disabled = false;
@@ -936,19 +928,19 @@ class MemoryImplement implements Memory {
   }
 
   memoryClear(): void {
-    this.memoryStack = [];
+    memoryStack = [];
   }
 
   memoryRecall(): void {
-    this.input.value = this.memoryStack[this.memoryStack.length - 1].toString();
+    this.input.value = memoryStack[memoryStack.length - 1].toString();
   }
 
   memoryAdd(): void {
     this.buttonDisableToAble();
-    if (this.memoryStack.length === 1) {
-      this.memoryStack.push(parseInt(this.input.value));
+    if (memoryStack.length === 1) {
+      memoryStack.push(parseInt(this.input.value));
     } else {
-      this.memoryStack[this.memoryStack.length - 1] += parseInt(
+      memoryStack[memoryStack.length - 1] += parseInt(
         this.input.value
       );
     }
@@ -956,10 +948,10 @@ class MemoryImplement implements Memory {
 
   memorySubtract(): void {
     this.buttonDisableToAble();
-    if (this.memoryStack.length === 0) {
-      this.memoryStack.push(-1 * parseInt(this.input.value));
+    if (memoryStack.length === 0) {
+      memoryStack.push(-1 * parseInt(this.input.value));
     } else {
-      this.memoryStack[this.memoryStack.length - 1] -= parseInt(
+      memoryStack[memoryStack.length - 1] -= parseInt(
         this.input.value
       );
     }
@@ -967,15 +959,15 @@ class MemoryImplement implements Memory {
 
   memorySave(): void {
     this.buttonDisableToAble();
-    if (this.memoryStack.length === 0) {
-      this.memoryStack.push(parseFloat(this.input.value));
+    if (memoryStack.length === 0) {
+      memoryStack.push(parseFloat(this.input.value));
     } else {
-      this.memoryStack.push(parseFloat(this.input.value));
+      memoryStack.push(parseFloat(this.input.value));
     }
   }
 }
 
-const obj6 = new MemoryImplement();
+const obj6 = new MemoryImplement("input");
 const memoryClearFunction = () => {
   obj6.memoryClear();
 };

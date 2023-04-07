@@ -109,7 +109,6 @@ inputField.addEventListener("keypress", function (event) {
 });
 var TrigonometryCalculatorImplement = /** @class */ (function () {
     function TrigonometryCalculatorImplement(input) {
-        this.degree = 0;
         this.input = input;
     }
     /**
@@ -122,15 +121,15 @@ var TrigonometryCalculatorImplement = /** @class */ (function () {
      * - sin(90 degree) to 1
      */
     TrigonometryCalculatorImplement.prototype.sine = function () {
-        if (this.degree === 0) {
+        if (degree === 0) {
             this.input.value = Math.sin((Math.PI / 180) * parseFloat(this.input.value)).toString();
             // console.log("in degree");
             // const angleInRadians = (Math.PI / 180) * parseFloat(this.input.value);
             // this.input.value = Math.sin(angleInRadians).toString();
-            // this.degree = 0;
+            // degree = 0;
         }
         else {
-            // console.log("in radian");
+            console.log("in radian");
             this.input.value = Math.sin(parseFloat(this.input.value)).toString();
         }
     };
@@ -144,7 +143,7 @@ var TrigonometryCalculatorImplement = /** @class */ (function () {
      * - cos(45 degree) to 0.7071067811865476
      */
     TrigonometryCalculatorImplement.prototype.cosine = function () {
-        if (this.degree === 0) {
+        if (degree === 0) {
             this.input.value = Math.cos((Math.PI / 180) * parseFloat(this.input.value)).toString();
         }
         else {
@@ -161,7 +160,7 @@ var TrigonometryCalculatorImplement = /** @class */ (function () {
      * - tan(60 degree) to 1.7320508075688767
      */
     TrigonometryCalculatorImplement.prototype.tangent = function () {
-        if (this.degree === 0) {
+        if (degree === 0) {
             this.input.value = Math.tan((Math.PI / 180) * parseFloat(this.input.value)).toString();
         }
         else {
@@ -178,7 +177,7 @@ var TrigonometryCalculatorImplement = /** @class */ (function () {
      * - cot(30 degree) to 1.7320508075688774
      */
     TrigonometryCalculatorImplement.prototype.cotangent = function () {
-        if (this.degree === 0) {
+        if (degree === 0) {
             this.input.value = (1 / Math.tan((Math.PI / 180) * parseFloat(this.input.value))).toString();
         }
         else {
@@ -195,7 +194,7 @@ var TrigonometryCalculatorImplement = /** @class */ (function () {
      * - sec(45 degree) to 1.414213562373095
      */
     TrigonometryCalculatorImplement.prototype.secant = function () {
-        if (this.degree === 0) {
+        if (degree === 0) {
             this.input.value = (1 / Math.cos((Math.PI / 180) * parseFloat(this.input.value))).toString();
         }
         else {
@@ -212,7 +211,7 @@ var TrigonometryCalculatorImplement = /** @class */ (function () {
      * - cosec(60 degree) to 1.1547005383792517
      */
     TrigonometryCalculatorImplement.prototype.cosecant = function () {
-        if (this.degree === 0) {
+        if (degree === 0) {
             this.input.value = (1 / Math.sin((Math.PI / 180) * parseFloat(this.input.value))).toString();
         }
         else {
@@ -351,7 +350,7 @@ function calculate() {
  * @returns void
  */
 function changeDropdown(display1, display2) {
-    var dropdownChange = 1;
+    // let dropdownChange: number = 1;
     if (typeof document !== "undefined") {
         var elements2 = Array.from(document.getElementsByClassName("display2"));
         var elements1 = Array.from(document.getElementsByClassName("display1"));
@@ -793,50 +792,51 @@ var signChangeFunction = function () {
     obj5.signChange();
 };
 var MemoryImplement = /** @class */ (function () {
-    function MemoryImplement() {
-        this.memoryStack = [];
-        this.input = document.createElement("input");
+    function MemoryImplement(input) {
+        this.input = document.getElementById(input);
+        // this.errorDiv = document.getElementById(errorDiv) as HTMLElement;
     }
     MemoryImplement.prototype.buttonDisableToAble = function () {
         document.getElementById("mc").disabled = false;
         document.getElementById("mr").disabled = false;
     };
     MemoryImplement.prototype.memoryClear = function () {
-        this.memoryStack = [];
+        memoryStack = [];
     };
     MemoryImplement.prototype.memoryRecall = function () {
-        this.input.value = this.memoryStack[this.memoryStack.length - 1].toString();
+        this.input.value = memoryStack[memoryStack.length - 1].toString();
     };
     MemoryImplement.prototype.memoryAdd = function () {
         this.buttonDisableToAble();
-        if (this.memoryStack.length === 1) {
-            this.memoryStack.push(parseInt(this.input.value));
+        console.log("hello", this.input.value);
+        if (memoryStack.length === 1) {
+            memoryStack.push(parseInt(this.input.value));
         }
         else {
-            this.memoryStack[this.memoryStack.length - 1] += parseInt(this.input.value);
+            memoryStack[memoryStack.length - 1] += parseInt(this.input.value);
         }
     };
     MemoryImplement.prototype.memorySubtract = function () {
         this.buttonDisableToAble();
-        if (this.memoryStack.length === 0) {
-            this.memoryStack.push(-1 * parseInt(this.input.value));
+        if (memoryStack.length === 0) {
+            memoryStack.push(-1 * parseInt(this.input.value));
         }
         else {
-            this.memoryStack[this.memoryStack.length - 1] -= parseInt(this.input.value);
+            memoryStack[memoryStack.length - 1] -= parseInt(this.input.value);
         }
     };
     MemoryImplement.prototype.memorySave = function () {
         this.buttonDisableToAble();
-        if (this.memoryStack.length === 0) {
-            this.memoryStack.push(parseFloat(this.input.value));
+        if (memoryStack.length === 0) {
+            memoryStack.push(parseFloat(this.input.value));
         }
         else {
-            this.memoryStack.push(parseFloat(this.input.value));
+            memoryStack.push(parseFloat(this.input.value));
         }
     };
     return MemoryImplement;
 }());
-var obj6 = new MemoryImplement();
+var obj6 = new MemoryImplement("input");
 var memoryClearFunction = function () {
     obj6.memoryClear();
 };
